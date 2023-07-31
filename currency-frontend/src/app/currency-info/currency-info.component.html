@@ -1,0 +1,32 @@
+<div class="container">
+  <h2>Get Current Currency Value</h2>
+  <div class="form-group">
+    <label for="currencyCode">Currency Code:</label>
+    <input type="text" id="currencyCode" [(ngModel)]="currencyCode">
+  </div>
+  <div class="form-group">
+    <label for="userName">User:</label>
+    <input type="text" id="userName" [formControl]="userNameFormControl">
+    <div *ngIf="userNameFormControl.invalid && (userNameFormControl.dirty || userNameFormControl.touched)">
+      <p *ngIf="userNameFormControl.errors?.['required']">User field is required.</p>
+      <p *ngIf="userNameFormControl.errors?.['pattern']">Please enter a valid name (only letters and spaces allowed).</p>
+    </div>
+  </div>
+  <button (click)="getCurrencyValue()" [disabled]="!currencyCode || userNameFormControl.invalid">Get Currency Value</button>
+
+  <div *ngIf="errorMsg">
+    <p>{{ errorMsg }}</p>
+  </div>
+
+  <div *ngIf="currencyResponse">
+    <h3>Result:</h3>
+    <p>Currency Rate: {{ currencyResponse.value }}</p>
+  </div>
+
+  <h2>Previous Requests</h2>
+  <ul>
+    <li *ngFor="let request of requests">
+      {{ request.currency }} : {{ request.currencyValue }} - {{ request.requestTime | date: 'medium' }}
+    </li>
+  </ul>
+</div>
